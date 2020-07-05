@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ordering notice</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<h1>Ordering notice</h1>
+
+<p>Dear {{ person_name }}</p>
+
+<p>Thanks for placing an order from {{ company }}. It's scheduled to ship on {{ ship_date|date:"F j, Y" }}.</p>
+
+<p>Here are the items you've ordered:</p>
+
+<ul>
+    {% for item in item_list %}
+        <li>{{ item }}</li>
+    {% endfor %}
+</ul>
+
+{% if ordered_warranty %}
+<p>Your warranty information will be included in the packaging.</p>
+{% else %}
+<p>You didn't order awarranty, so you're on your own when the products inevitably stop working.</p>
+{% endif %}
+
+<p>Sincerely,<br/>{{ company }}</p>
+
+<div class="container page-header">
+    <h1>文章标题1(urls文件-函数path())
+    </h1>
+
+</div>
+
+</body>
+</html>
