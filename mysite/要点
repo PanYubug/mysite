@@ -1,0 +1,75 @@
+编写第一个应用
+
+1、写views
+2、写urls中path()，包括项目中的urls文件
+
+
+
+函数 path()
+
+具有四个参数，两个必须参数：route 和 view，两个可选参数：kwargs 和 name。现在，是时候来研究这些参数的含义了。
+
+参数：
+1、route
+route 是一个匹配 URL 的准则（类似正则表达式）。当 Django 响应一个请求时，它会从 urlpatterns 的第一项开始，按顺序依次匹配列表中的项，直到找到匹配的项。
+这些准则不会匹配 GET 和 POST 参数或域名。例如，URLconf 在处理请求 https://www.example.com/myapp/ 时，它会尝试匹配 myapp/ 。处理请求 https://www.example.com/myapp/?page=3 时，也只会尝试匹配 myapp/。
+2、view
+当 Django 找到了一个匹配的准则，就会调用这个特定的视图函数，并传入一个 HttpRequest 对象作为第一个参数，被“捕获”的参数以关键字参数的形式传入。稍后，我们会给出一个例子。
+3、kwargs
+任意个关键字参数可以作为一个字典传递给目标视图函数。本教程中不会使用这一特性。
+4、name
+为你的 URL 取名能使你在 Django 的任意地方唯一地引用它，尤其是在模板中。这个有用的特性允许你只改一个文件就能全局地修改某个 URL 模式。
+
+
+settings.py文件，数据库配置
+0、先设置 TIME_ZONE 为你自己时区。
+
+1、DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+ENGINE
+'django.db.backends.sqlite3'，
+'django.db.backends.postgresql'，
+'django.db.backends.mysql'，
+'django.db.backends.oracle'
+NAME - 数据库的名称。
+如果使用的是 SQLite，数据库将是你电脑上的一个文件，在这种情况下，NAME应该是此文件的绝对路径，包括文件名。默认值 os.path.join(BASE_DIR, 'db.sqlite3') 将会把数据库文件储存在项目的根目录。
+如果你不使用 SQLite，则必须添加一些额外设置，比如 USER 、 PASSWORD 、 HOST 等等。
+
+
+2、INSTALLED_APPS
+INSTALLED_APPS 默认包括了以下 Django 的自带应用：
+
+
+模型层
+视图层--模型层--数据库
+作用：
+1、屏蔽不同数据库之间的差异
+2、开发者更加专注于业务逻辑的开发
+3、提供很多便捷工具有助开发
+
+创建模型
+在 Django 里写一个数据库驱动的 Web 应用的第一步是定义模型 - 也就是数据库结构设计和附加的其它元数据。
+
+激活模型
+为这个应用创建数据库 schema（生成 CREATE TABLE 语句）。
+创建可以与 Question 和 Choice 对象进行交互的 Python 数据库 API。
+
+但是首先得把 polls 应用安装到我们的项目里。
+
+放在INSTALLED_APPS
+我们需要在配置类 INSTALLED_APPS 中添加设置。因为 PollsConfig 类写在文件 polls/apps.py 中，所以它的点式路径是 'polls.apps.PollsConfig'。在文件 mysite/settings.py 中 INSTALLED_APPS 子项添加点式路径后
+'polls.apps.PollsConfig'
+
+python manage.py makemigrations polls       Django 会检测你对模型文件的修改（在这种情况下，你已经取得了新的），并且把修改的部分储存为一次 迁移。
+    python manage.py sqlmigrate polls 0001
+    （python manage.py check ;这个命令帮助你检查项目中的问题，并且在检查过程中不会对数据库进行任何操作。）
+python manage.py migrate        在数据库里创建新定义的模型的数据表（选中所有还没有执行过的迁移（Django 通过在数据库中创建一个特殊的表 django_migrations 来跟踪执行过哪些迁移）并应用在数据库上 - 也就是将你对模型的更改同步到数据库结构上。）
+
+现在，你只需要记住，改变模型需要这三步：
+编辑 models.py 文件，改变模型。
+运行 python manage.py makemigrations 为模型的改变生成迁移文件。
+运行 python manage.py migrate 来应用数据库迁移。
