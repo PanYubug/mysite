@@ -45,11 +45,7 @@ INSTALLED_APPS 默认包括了以下 Django 的自带应用：
 
 
 模型层
-视图层--模型层--数据库
-作用：
-1、屏蔽不同数据库之间的差异
-2、开发者更加专注于业务逻辑的开发
-3、提供很多便捷工具有助开发
+
 
 创建模型
 在 Django 里写一个数据库驱动的 Web 应用的第一步是定义模型 - 也就是数据库结构设计和附加的其它元数据。
@@ -73,3 +69,25 @@ python manage.py migrate        在数据库里创建新定义的模型的数据
 编辑 models.py 文件，改变模型。
 运行 python manage.py makemigrations 为模型的改变生成迁移文件。
 运行 python manage.py migrate 来应用数据库迁移。
+
+Django Shell
+用于交互式的Python编程
+继承Django项目环境
+作用：
+1、临时性操作使用Django Shell更加方便
+2、小范围Debug更简单，不需要运行整个项目来测试
+3、方便开发、方便调试、方便Debug
+
+初识Django Admin模块
+Django Admin模块是什么
+1、Django的后台管理工具
+2、读取定义的模型元数据，提供强大的管理使用页面
+
+作用：
+1、Django Shell新增文章太复杂了
+2、管理页面是基础设施中重要的部分
+3、认证用户、显示管理模型、校验输入等功能类似
+
+使用：
+1、创建管理员用户
+2、登录页面进行管理

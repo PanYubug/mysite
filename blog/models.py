@@ -15,3 +15,5 @@ class Article(models.Model):
     # 文章的发布时间
     publish_date = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title

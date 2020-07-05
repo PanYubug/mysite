@@ -10,9 +10,14 @@ class Question(models.Model):
     pub_date = models.DateTimeField('date published')
 
     # 每个Field类实例变量的名字（例如question_text或pub_date ）也是字段名，所以最好使用对机器友好的格式。你将会在Python代码里使用它们，而数据库会将它们作为列名。
+    def __str__(self):
+        return self.question_text
 
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.question
