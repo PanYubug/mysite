@@ -23,6 +23,13 @@ def article_content(request):
 
 
 def get_index_page(request):
+    page = request.GET.get('page')
+    if page:
+        page = int(page)
+    else:
+        page = 1
+    print('page param:', page)
+
     all_article = Article.objects.all()
     return render(request, 'blog/index.html',
                   {
