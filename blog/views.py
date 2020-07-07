@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from blog.models import Article
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -18,7 +19,7 @@ def article_content(request):
     article_id = article.article_id
     publish_date = article.publish_date
     return_str = 'title: %s, brief_content: %s, content: %s, article_id: %s, publish_date: %s' % (
-    title, brief_content, content, article_id, publish_date)
+        title, brief_content, content, article_id, publish_date)
     return HttpResponse(return_str)
 
 
@@ -31,9 +32,26 @@ def get_index_page(request):
     print('page param:', page)
 
     all_article = Article.objects.all()
+    paginator = Paginator(all_article, 1)
+    page_num = paginator.num_pages
+    print('page num: ', page_num)
+    page_article_list = paginator.page(page)
+    if page_article_list.has_next():
+        next_page = page + 1
+    else:
+        next_page = page
+    if page_article_list.has_previous():
+        previous_page = page - 1
+    else:
+        previous_page = page
+
     return render(request, 'blog/index.html',
                   {
-                      'article_list': all_article
+                      'article_list': page_article_list,
+                      'page_num': range(1, page_num + 1),
+                      'curr_page': page_article_list,
+                      'next_page': next_page,
+                      'previous': previous_page
                   }
                   )
 
