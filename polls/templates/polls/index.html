@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>入门Django Web框架</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container page-header">
+    <h1>入门Django Web框架
+        <small>——by PY</small>
+    </h1>
+
+</div>
+<div class="container page-body">
+    {% if latest_question_list %}
+        <ul>
+            {% for question in latest_question_list %}
+                {#                <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>#}
+                {# 硬编码和强耦合的链接，对于一个包含很多应用的项目来说，修改起来是十分困难的。然而，因为你在 polls.urls 的 url() 函数中通过 name 参数为 URL 定义了名字，你可以使用 {% url %} 标签代替它 #}
+                {#                <li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li>#}
+                <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+</div>
+
+</body>
+</html>
